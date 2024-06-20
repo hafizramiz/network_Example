@@ -17,6 +17,8 @@ final class NetworkService {
     'Access-Control-Allow-Credentials': 'true',
   };
 
+
+
   /// This method is used to initialize the Dio package.
   void start() {
     _networkManager = NetworkManager<EmptyModel>(
