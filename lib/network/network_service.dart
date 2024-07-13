@@ -1,12 +1,13 @@
-
-
+import 'package:flutter/material.dart';
+import 'package:network_example/model/empty_response_model.dart';
+import 'package:network_example/model/second_response_model.dart';
 import 'package:vexana/vexana.dart';
 
 import '../model/base_network_model.dart';
-import '../model/base_respose_model.dart';
+import '../model/interface_base_response_model.dart';
 
 /// This class is used to make network requests.
-final class NetworkService {
+final class NetworkService<T extends BaseResponse<T>> {
   NetworkService._init();
 
   /// This map is used to set the headers.
@@ -16,8 +17,6 @@ final class NetworkService {
         'Origin, Content-Type, Accept, Credentials, Authorization',
     'Access-Control-Allow-Credentials': 'true',
   };
-
-
 
   /// This method is used to initialize the Dio package.
   void start() {
@@ -31,26 +30,25 @@ final class NetworkService {
     );
   }
 
-  static final NetworkService _instance = NetworkService._init();
+  static final NetworkService _instance =
+      NetworkService<SecondResponseModel>._init();
+
   static NetworkService get instance => _instance;
 
   late NetworkManager _networkManager;
 
-
-
-
-
-
   /// This method is used to make a Post request.
-  Future<BaseResponseModel<T>> request<T extends IBaseNetworkModel<T>>(
-      String path, {
-        Object? data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        MethodType? method,
-        T? model,
-      }) async {
+  Future<T> request<E extends BaseEntity<E>, R>(
+    String path, {
+    required E parserModel,
+    required T responseModel,
+    /// Request attigimizda donecek olan response model
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    MethodType? method,
+  }) async {
     options?.method = MethodType.getMethodType(method);
 
     final response = await _networkManager.request<dynamic>(
@@ -60,50 +58,61 @@ final class NetworkService {
       options: options,
       cancelToken: cancelToken,
     );
-    dio
 
     if (response.data == null) {
-      return BaseResponseModel(
-        statusCode: response.statusCode,
-        message: "response.data is null geldi",
-      );
+      final model = responseModel;
+      model.statusCode = response.statusCode;
+      model.errorMessage = response.statusMessage;
+      return model;
     }
-    final parseModel = _parseModel<T>(
-      model: model,
-      resp: response.data,
+    print("response.data: ${response.data}");
+
+    final entity = _parseBody<E, R>(
+      response.data,
+
+      /// Response data Liste ve ya Map olabilir.
+      model: parserModel,
     );
-    if (parseModel == null) {
-      return BaseResponseModel(
-        statusCode: response.statusCode,
-      );
+    if (entity == null) {
+      final model = responseModel;
+      model.statusCode = response.statusCode;
+      model.errorMessage= "Enity  null geldi";
+      return model;
     }
-    return BaseResponseModel<T>(
-      data: parseModel,
-      statusCode: response.statusCode,
-      message: response.statusMessage,
-    );
+    responseModel.setData(entity);
+    responseModel.responseStatus = response.statusCode;
+    return responseModel;
   }
 
-  T? _parseModel<T extends IBaseNetworkModel<T>>({
+  R? _parseBody<T extends BaseEntity<T>, R>(
+    dynamic responseBody, {
     T? model,
-    dynamic resp,
   }) {
-    if (model == null || resp == null) {
+    dynamic data = responseBody;
+    if (model == null || data == null) {
       return null;
     }
-    if (resp is Map<String, dynamic>) {
-      return model.fromJson(resp);
-    } else if (resp is List) {
-      return resp
+    if (data == null) {
+      debugPrint(
+        'Be careful your data $data, Cannot be null',
+      );
+      return null;
+    }
+
+    if (data is Map<String, dynamic>) {
+      return model.fromJson(data) as R;
+    } else if (data is List) {
+      return data
           .map(
-            (responseData) => model.fromJson(
-          responseData is Map<String, dynamic> ? responseData : {},
-        ),
-      )
+            (e) => model.fromJson(
+              e is Map<String, dynamic> ? e : {},
+            ),
+          )
           .cast<T>()
-          .toList() as T;
+          .toList() as R;
     } else {
-      return model.toString() as T;
+      print('Parse Error: $data');
+      return model.toString() as R;
     }
   }
 }
@@ -115,6 +124,7 @@ enum MethodType {
   delete('DELETE');
 
   const MethodType(this.value);
+
   final String value;
 
   static String getMethodType(MethodType? method) => switch (method) {

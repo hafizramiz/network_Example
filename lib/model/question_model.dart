@@ -4,7 +4,7 @@ import 'package:network_example/model/base_network_model.dart';
 import 'grid_icon_model.dart';
 import 'option_model.dart';
 
-final class QuestionModel extends IBaseNetworkModel<QuestionModel> {
+final class QuestionModel extends BaseEntity<QuestionModel> {
   int? questionId;
   String? age;
   String? category;

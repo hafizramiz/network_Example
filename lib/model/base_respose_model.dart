@@ -1,7 +1,7 @@
 import 'interface_base_response_model.dart';
 
 /// Base response model for all api responses
-final class BaseResponseModel<T> extends IBaseResponseModel<T> {
+class BaseResponseModel<T> extends IBaseResponseModel<T> {
   /// Base response model contructor method
   BaseResponseModel({
     /// Burdaki T tipindeki data değişkeni, gelen veri tipine göre değişir.
