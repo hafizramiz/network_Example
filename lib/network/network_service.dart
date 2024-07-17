@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:network_example/model/empty_response_model.dart';
+import 'package:network_example/model/base_respose_model.dart';
 import 'package:network_example/model/second_response_model.dart';
 import 'package:vexana/vexana.dart';
-
 import '../model/base_network_model.dart';
-import '../model/interface_base_response_model.dart';
 
 /// This class is used to make network requests.
-final class NetworkService<T extends BaseResponse<T>> {
+final class NetworkService {
   NetworkService._init();
 
   /// This map is used to set the headers.
@@ -30,18 +28,17 @@ final class NetworkService<T extends BaseResponse<T>> {
     );
   }
 
-  static final NetworkService _instance =
-      NetworkService<SecondResponseModel>._init();
+  static final NetworkService _instance = NetworkService._init();
 
   static NetworkService get instance => _instance;
 
   late NetworkManager _networkManager;
 
   /// This method is used to make a Post request.
-  Future<T> request<E extends BaseEntity<E>, R>(
+  Future<SecondResponseModel> request<E extends BaseEntity<E>, R>(
     String path, {
     required E parserModel,
-    required T responseModel,
+
     /// Request attigimizda donecek olan response model
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -60,10 +57,14 @@ final class NetworkService<T extends BaseResponse<T>> {
     );
 
     if (response.data == null) {
-      final model = responseModel;
-      model.statusCode = response.statusCode;
-      model.errorMessage = response.statusMessage;
-      return model;
+      // final model = responseModel;
+      // model.statusCode = response.statusCode;
+      // model.errorMessage = response.statusMessage;
+      // return model;
+
+      return SecondResponseModel(
+          errorMessage: response.statusMessage,
+          statusCode: response.statusCode);
     }
     print("response.data: ${response.data}");
 
@@ -74,14 +75,15 @@ final class NetworkService<T extends BaseResponse<T>> {
       model: parserModel,
     );
     if (entity == null) {
-      final model = responseModel;
-      model.statusCode = response.statusCode;
-      model.errorMessage= "Enity  null geldi";
-      return model;
+      // final model = responseModel;
+      // model.statusCode = response.statusCode;
+      // model.errorMessage = "Enity  null geldi";
+      return SecondResponseModel(body: null);
     }
-    responseModel.setData(entity);
-    responseModel.responseStatus = response.statusCode;
-    return responseModel;
+    SecondResponseModel model=SecondResponseModel();
+        model.setData(entity);
+    model.statusCode = response.statusCode;
+    return model;
   }
 
   R? _parseBody<T extends BaseEntity<T>, R>(
@@ -98,7 +100,6 @@ final class NetworkService<T extends BaseResponse<T>> {
       );
       return null;
     }
-
     if (data is Map<String, dynamic>) {
       return model.fromJson(data) as R;
     } else if (data is List) {

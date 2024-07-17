@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
                 options: Options(),
                 method: MethodType.get,
                 parserModel: QuestionModel(),
-                responseModel: SecondResponseModel(body: null),
               );
 
               /// Response olarak SecondResponseModel donmesini bekliyorum.
@@ -57,11 +56,10 @@ class _HomePageState extends State<HomePage> {
 
 
               final response = await NetworkService.instance.request<QuestionModel, List<QuestionModel>>(
-                "Question/page=1&size=25&category=AYrr",
+                "Question/page=1&size=25&category=AY",
                 options: Options(),
                 method: MethodType.get,
                 parserModel: QuestionModel(),
-                responseModel: SecondResponseModel(body: null),
               );
 
               /// Response olarak SecondResponseModel donmesini bekliyorum.
