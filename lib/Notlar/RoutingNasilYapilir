@@ -1,0 +1,8 @@
+Mevcutta yazdigim proje eger normal Navigator class kullaniyor ise
+Bunu kademeli olarak gorouter'a cekebilirim. Ikiside calisacaktir. Ayni anda ikisinin
+calismasi mumkundur.
+GoRouter, Navigator ile geriye dönük uyumluluk sağlamak için Router API'sinden yararlanır,
+bu nedenle Navigator.of(context).push() veya Navigator.of(context).pop() çağrıları çalışmaya
+ devam eder, ancak bu hedefler derin bağlanabilir değildir. GoRouter yapılandırmasına kademeli
+  olarak daha fazla rota ekleyebilirsiniz.
+

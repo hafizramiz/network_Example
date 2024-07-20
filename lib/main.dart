@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:network_example/network/network_service.dart';
-
-import 'home/home_page.dart';
+import 'package:network_example/router/my_route_manager.dart';
+import 'core/network/network_service.dart';
 
 import 'dart:developer' as developer;
 
@@ -18,11 +17,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+  /// GoRouter ile routing yapacaksam. MaterialApp yerine [MaterialApp.router()] constructor'ını kullanmalıyım.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Network Example',
-      home: HomePage()
+    return MaterialApp.router(
+
+      routerConfig: MyRouteManager.router,
     );
   }
 }

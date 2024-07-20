@@ -1,6 +1,6 @@
 
-import 'package:network_example/model/base_network_model.dart';
 
+import 'base_network_model.dart';
 import 'grid_icon_model.dart';
 import 'option_model.dart';
 

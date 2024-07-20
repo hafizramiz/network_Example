@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:network_example/model/base_respose_model.dart';
-import 'package:network_example/model/second_response_model.dart';
 import 'package:vexana/vexana.dart';
-import '../model/base_network_model.dart';
+
+import '../../home/model/base_network_model.dart';
+import '../../home/model/second_response_model.dart';
 
 /// This class is used to make network requests.
 final class NetworkService {

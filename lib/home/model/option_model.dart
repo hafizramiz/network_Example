@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:network_example/model/base_network_model.dart';
+
+import 'base_network_model.dart';
 
 
-final class OptionModel extends IBaseNetworkModel<OptionModel> {
+final class OptionModel extends BaseEntity<OptionModel> {
   int? optionId;
   int? questionId;
   String? optionUrl;

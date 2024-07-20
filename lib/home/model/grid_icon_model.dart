@@ -1,6 +1,7 @@
-import 'package:network_example/model/base_network_model.dart';
 
-final class GridIconModel extends IBaseNetworkModel<GridIconModel> {
+import 'base_network_model.dart';
+
+final class GridIconModel extends BaseEntity<GridIconModel> {
   int? gridIconId;
   int? questionId;
   String? imageUrl;
