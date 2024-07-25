@@ -77,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
                 onPressed: () {
                   /// Home Screen'den Users Screen'e gitmek istiyorum
-               //    context.push("${RoutePaths.users.path}/123rrrr}");
-                   context.go("${RoutePaths.users.path}/123rrrr}");
+                  context.push("${RoutePaths.users.path}/123rrrr}");
+               //    context.go("${RoutePaths.users.path}/123rrrr}");
                // context.go('/users/123');
                  //  context.push('/users/123');
                 },

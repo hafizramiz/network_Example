@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 final class UserScreen extends StatelessWidget {
   final String userId;
@@ -11,9 +12,15 @@ final class UserScreen extends StatelessWidget {
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Text("UserScreen"),
         Text("User id: $userId"),
-        ElevatedButton(onPressed: () {}, child: Text("Go to Detail Screen"))
+        ElevatedButton(onPressed: () {
+        //  context.push('userdetail');
+          context.push('/users/1/userdetail');
+
+        }, child: Text("Go to User Detail Screen"))
       ],
     ));
   }
 }
+

@@ -1,5 +1,6 @@
 // GoRouter configuration
 import 'package:go_router/go_router.dart';
+import 'package:network_example/core/users/user_detail_screen.dart';
 import 'package:network_example/details/details_screen.dart';
 import 'package:network_example/splash/splash_screen.dart';
 
@@ -31,7 +32,6 @@ final class MyRouteManager {
         builder: (context, state) => const DetailsScreen(),
         // pageBuilder: (context, state) =>const DetailsScreen()
       ),
-
       GoRoute(
           path: '/users/:userId',
           builder: (context, state) {
@@ -48,7 +48,15 @@ final class MyRouteManager {
           },
 
           /// Burasi child routes olarak bilinir. Bu sayede bir sayfa icinde birden fazla sayfa acabilirim
-          routes: []),
+          routes: [
+            GoRoute(
+              path: 'userdetail',
+              builder: (context, state) {
+                return UserDetailScreen();
+              },
+            ),
+
+          ]),
     ],
   );
 
