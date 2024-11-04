@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'interface_base_response_model.dart';
+import 'base_response.dart';
+
 final class SecondResponseModel implements BaseResponse<SecondResponseModel> {
   @override
   String? errorMessage;

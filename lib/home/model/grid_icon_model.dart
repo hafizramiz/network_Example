@@ -1,5 +1,6 @@
 
-import 'base_network_model.dart';
+
+import 'base_entity.dart';
 
 final class GridIconModel extends BaseEntity<GridIconModel> {
   int? gridIconId;

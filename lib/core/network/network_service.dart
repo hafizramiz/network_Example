@@ -1,7 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:vexana/vexana.dart';
 
-import '../../home/model/base_network_model.dart';
+import '../../home/model/base_entity.dart';
 import '../../home/model/second_response_model.dart';
 
 /// This class is used to make network requests.
@@ -10,10 +11,12 @@ final class NetworkService {
 
   /// This map is used to set the headers.
   final headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers':
-        'Origin, Content-Type, Accept, Credentials, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'X-API-KEY':
+    'b775df880cc67e34ee68623d7c0c1f22997d1fab2b574275e7b6e6498a93446b8e5206c6f8cfd6329ca073269571b8f7351f3f8e48bbb29d44ac909434772da0',
+    //'Authorization': 'Bearer $userToken'
+    /// Kullaniciyi autherize etmek bareer token kullanilir.
   };
 
   /// This method is used to initialize the Dio package.
@@ -56,6 +59,10 @@ final class NetworkService {
       cancelToken: cancelToken,
     );
 
+
+
+
+    print(response);
     if (response.data == null) {
       // final model = responseModel;
       // model.statusCode = response.statusCode;

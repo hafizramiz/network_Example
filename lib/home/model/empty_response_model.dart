@@ -1,7 +1,10 @@
 
-import 'interface_base_response_model.dart';
 
- class EmptyResponseModel extends BaseResponse<EmptyResponseModel>{
+
+import 'base_response.dart';
+
+class EmptyResponseModel extends BaseResponse<EmptyResponseModel>{
+
   @override
   void clearEntity() {
     // TODO: implement clearEntity

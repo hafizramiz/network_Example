@@ -1,0 +1,53 @@
+Dio, Flutter için popüler bir HTTP istemcisi paketidir ve özellikle API isteklerini yapmak için kullanılır. Dio, genişletilebilir ve özelleştirilebilir yapısı sayesinde, interceptor (kesici) adı verilen mekanizmayı destekler.
+
+Dio Interceptor Nedir?
+Dio interceptor, HTTP istekleri ve yanıtları üzerinde işlem yapabilen, isteği değiştirebilen, yanıtı modifiye edebilen veya hata durumlarını yönetebilen bir yapıdadır. Interceptor'lar, isteklerin veya yanıtların arasına girerek belirli işlemler yapmayı sağlar.
+
+Dio Interceptor Ne Yapar?
+İstek Öncesi İşlemler: Bir isteğin sunucuya gönderilmesinden önce yapılacak işlemleri belirler. Örneğin, her isteğe bir kimlik doğrulama başlığı (token) eklemek gibi.
+
+Yanıt İşleme: Sunucudan gelen yanıt üzerinde işlem yapabilir. Örneğin, belirli hata durumlarında özel hata mesajları göstermek veya yanıtın yapısını değiştirmek.
+
+Hata Yönetimi: Hata durumlarında, interceptor'lar hata işleme mantığını devreye sokabilir. Örneğin, bir istek başarısız olduğunda otomatik olarak yeniden deneme veya kullanıcıya özel bir mesaj göstermek.
+
+İstek Yönlendirme ve Modifikasyon: İstek URL'sini değiştirme, istek başlıklarını (headers) güncelleme gibi işlemleri yapabilir.
+
+Dio Interceptor Örneği
+dart
+Copy code
+import 'package:dio/dio.dart';
+
+class CustomInterceptor extends InterceptorsWrapper {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    // İstek öncesi yapılacak işlemler
+    options.headers['Authorization'] = 'Bearer <TOKEN>';
+    print('Request: ${options.method} ${options.path}');
+    handler.next(options);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    // Yanıt üzerinde yapılacak işlemler
+    print('Response: ${response.statusCode}');
+    handler.next(response);
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    // Hata yönetimi
+    print('Error: ${err.message}');
+    handler.next(err);
+  }
+}
+
+void main() {
+  final dio = Dio();
+  dio.interceptors.add(CustomInterceptor());
+
+  // Dio ile istek yapma
+  dio.get('https://example.com').then((response) {
+    print(response.data);
+  });
+}
+Bu örnekte, CustomInterceptor adlı bir interceptor tanımlanmış ve Dio istemcisine eklenmiştir. Bu interceptor, her istekten önce Authorization başlığı ekler, yanıtın durum kodunu yazdırır ve hataları yönetir.

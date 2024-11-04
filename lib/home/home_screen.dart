@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:network_example/home/model/report_model.dart';
 import 'package:network_example/router/my_route_manager.dart';
 import 'package:vexana/vexana.dart';
 
 import '../core/network/network_service.dart';
 import 'model/question_model.dart';
+var list1 = ['I', '💙', 'Flutter'];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    list1=['aaa', '💙', 'aaa'];
+    print(list1);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
@@ -74,6 +79,35 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text("Fetch Questions"),
             ),
+            ElevatedButton(
+              onPressed: () async {
+                final response = await NetworkService.instance
+                    .request<ReportModel, ReportModel>(
+                  "Reports",
+                  options: Options(),
+                  method: MethodType.post,
+                  parserModel: ReportModel(),
+                  data:   {
+                "contentID": "widget.performanceModel != null",
+                "category":  "P",
+                "testerName": "selectedTester ?? dropDownTesterList.first",
+                "message": "_commentController.text",
+                "image": "_downloadUrl ??" ,
+                "status": "Bekliyor"
+                }
+                );
+
+                dataList = response.body;
+                setState(() {});
+
+                /// Response olarak SecondResponseModel donmesini bekliyorum.
+
+                print("response list: $response");
+              },
+              child: Text("Post Report"),
+            ),
+
+
             ElevatedButton(
                 onPressed: () {
                   /// Home Screen'den Users Screen'e gitmek istiyorum

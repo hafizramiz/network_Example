@@ -1,7 +1,7 @@
 // import 'package:network_example/network/network_service.dart';
 // import 'package:vexana/vexana.dart';
 //
-// import '../model/base_network_model.dart';
+// import '../model/base_entity.dart';
 // import '../model/base_respose_model.dart';
 //
 // final class QuestionService {

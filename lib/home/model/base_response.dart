@@ -1,4 +1,3 @@
-abstract class IBaseResponseModel<T> {}
 
 /// Burdaki metotlarin hepsi olsun. Bundan inherit edilen classlarin hepsi bu metotlari implement etsin.
 /// SecondResponseModel bu class'tan inherit alip hepsini uygulasin.

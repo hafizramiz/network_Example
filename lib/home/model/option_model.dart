@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'base_network_model.dart';
+import 'base_entity.dart';
+
 
 
 final class OptionModel extends BaseEntity<OptionModel> {
